@@ -1,3 +1,4 @@
+
 header {
     background-color: #fff;
     padding: 20px 40px;
@@ -8,7 +9,7 @@ header {
 }
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: black;
+    background-color: #AA9CAF;
     color: #333;
 }
 figure:hover {
