@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panier</title>
+  <link rel="stylesheet" href="panier.css">
+  <link rel="stylesheet" href="COMMANDE.css">
+     
+</head>
+<body>
+
+  <h1>🛒 Mon Panier</h1>
+  <div id="panier"></div>
+
+  <div id="total"></div>
+
+  <button class="valider-btn" onclick="validerCommande()">✅ Valider la commande</button>
+
+  <script>
+    let panier = JSON.parse(localStorage.getItem("panier")) || [];
+
+    function afficherPanier() {
+      const div = document.getElementById("panier");
+      const totalDiv = document.getElementById("total");
+      div.innerHTML = "";
+      let total = 0;
+
+      if (panier.length === 0) {
+        div.innerHTML = "<p>Le panier est vide.</p>";
+        totalDiv.innerHTML = "";
+        return;
+      }
+
+      panier.forEach((item, index) => {
+        total += item.prix * item.quantite;
+        div.innerHTML += `
+          <div class="article">
+            <strong>${item.nom}</strong><br>
+            Prix: ${item.prix} FCFA<br>
+            Taille: ${item.taille} | Couleur: ${item.couleur}<br>
+            Quantité:
+            <button onclick="modifierQuantite(${index}, -1)">-</button>
+            ${item.quantite}
+            <button onclick="modifierQuantite(${index}, 1)">+</button><br>
+            <button onclick="supprimer(${index})">🗑 Supprimer</button>
+          </div>
+        `;
+      });
+
+      totalDiv.innerText = `Total : ${total.toLocaleString()} FCFA`;
+    }
+
+    function modifierQuantite(index, valeur) {
+      panier[index].quantite += valeur;
+      if (panier[index].quantite <= 0) {
+        panier.splice(index, 1);
+      }
+      localStorage.setItem("panier", JSON.stringify(panier));
+      afficherPanier();
+    }
+
+    function supprimer(index) {
+      panier.splice(index, 1);
+      localStorage.setItem("panier", JSON.stringify(panier));
+      afficherPanier();
+    }
+
+    function validerCommande() {
+      if (panier.length === 0) {
+        alert("Votre panier est vide !");
+        return;
+      }
+
+      // Exemple : ouvrir WhatsApp avec résumé de la commande
+      let message = "Bonjour, je souhaite commander :\n";
+      panier.forEach(item => {
+        message += `- ${item.nom} (${item.taille}, ${item.couleur}) x${item.quantite} = ${item.prix * item.quantite} FCFA\n`;
+      });
+
+      const total = panier.reduce((sum, item) => sum + item.prix * item.quantite, 0);
+      message += `\nTotal: ${total.toLocaleString()} FCFA`;
+
+      const numero = "2250102008084"; // ← ton numéro WhatsApp sans "+"
+      const url = `https://wa.me/${numero}?text=${encodeURIComponent(message)}`;
+
+      window.open(url, '_blank');
+    }
+
+    afficherPanier();
+  </script>
+
+</body>
+</html>
