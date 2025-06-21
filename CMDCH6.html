@@ -1,151 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="CMD1.css">
-    <title>Document</title>
-    <script></script>
-  </head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commande</title>
+  <link rel="stylesheet" href="COMMANDE.css">
 
+</head>
 <body>
-   <header>
-        <div class="logo">KEHOU <span>WAY</span></div>
-        <h2>FAIRE UNE COMMANDE</h2>
-        <nav>
-            <ul>
-                <li><a href="HOMME.html">HOMME</a></li>
-                <li><a href="FEMME.html">FEMME</a></li>
-                <li><a href="ENFANT.html">ENFANTS</a></li>
-                <li><a href="CHAUSSURE.html">CHAUSSURES</a></li>
-            </ul>
-        </nav>
-    </header>
-    <figure>
-        <img src="image/C6.jpeg" alt="image1">
-        <figcaption>VANS KNU-SCHOOL
-           <br> prix : 35000FCFA</figcaption>
-   
-       <div class="filtre-container">
-  <div class="dropdown" id="dropdown-taille">
-  <button class="filtre-btn" onclick="toggleTailleDropdown()">Taille</button>
-  <div class="dropdown-content" id="taille-list">
-    <span class="dropdown-title">Taille</span>
-    <ul>
-      <li>XS</li>
-      <li>S</li>
-      <li>M</li>
-      <li>L</li>
-      <li>XL</li>
-      <li>XXL</li>
-    </ul>
-  </div>
-</div>
-<script>
-  function toggleTailleDropdown() {
-    const list = document.getElementById("taille-list");
-    list.style.display = (list.style.display === "block") ? "none" : "block";
-  }
 
-  // Ferme les dropdowns si on clique ailleurs
-  window.addEventListener('click', function(e) {
-    const marqueBtn = document.querySelector('#dropdown-marque button');
-    const marqueMenu = document.getElementById("marque-list");
+  <h1>VANS KNU-SCHOOL</h1>
+  <img src="image/C6.jpeg" width="250" />
+  <p>Prix : 35 000 FCFA</p>
 
-    const tailleBtn = document.querySelector('#dropdown-taille button');
-    const tailleMenu = document.getElementById("taille-list");
+  <label>Taille :
+    <select id="taille">
+      <option value="">-- Choisir --</option>
+      <option value="XS">XS</option>
+      <option value="S">S</option>
+      <option value="M">M</option>
+      <option value="L">L</option>
+      <option value="XL">XL</option>
+    </select>
+  </label>
+  <br>
 
-    if (!marqueBtn.contains(e.target) && !marqueMenu.contains(e.target)) {
-      marqueMenu.style.display = "none";
+  <label>Couleur :
+    <select id="couleur">
+      <option value="">-- Choisir --</option>
+      <option value="Noir">⚫ Noir</option>
+      <option value="Blanc">⚪ Blanc</option>
+      <option value="Rouge">🔴 Rouge</option>
+      <option value="Bleu">🔵 Bleu</option>
+    </select>
+  </label>
+  <br>
+
+  <button onclick="ajouterAuPanier()"><a href="panier.html">+ Ajouter au Panier</a></button>
+
+  <script>
+    function ajouterAuPanier() {
+      const taille = document.getElementById("taille").value;
+      const couleur = document.getElementById("couleur").value;
+
+      if (!taille || !couleur) {
+        alert("Veuillez choisir la taille et la couleur.");
+        return;
+      }
+
+      const article = {
+        nom: "VANS KNU-SCHOOL",
+        prix: 35000,
+        taille: taille,
+        couleur: couleur,
+        quantite: 1
+      };
+
+      let panier = JSON.parse(localStorage.getItem("panier")) || [];
+
+      const existant = panier.find(p => p.nom === article.nom && p.taille === article.taille && p.couleur === article.couleur);
+
+      if (existant) {
+        existant.quantite++;
+      } else {
+        panier.push(article);
+      }
+
+      localStorage.setItem("panier", JSON.stringify(panier));
+      window.location.href = "panier.html";
     }
-    if (!tailleBtn.contains(e.target) && !tailleMenu.contains(e.target)) {
-      tailleMenu.style.display = "none";
-    }
-  });
-</script>
+  </script>
 
-  <div class="dropdown" id="dropdown-couleur">
-  <button class="filtre-btn" onclick="toggleCouleurDropdown()">Couleur</button>
-  <div class="dropdown-content" id="couleur-list">
-    <span class="dropdown-title">Couleur</span>
-    <ul>
-      <li>⚫Noir</li>
-      <li>⚪Blanc</li>
-      <li>🔴Rouge</li>
-      <li>🔵Bleu</li>
-      <li>🟢Vert</li>
-      <li>🟡Jaune</li>
-    </ul>
-  </div>
-</div>
-<script>
-  function toggleCouleurDropdown() {
-    const list = document.getElementById("couleur-list");
-    list.style.display = (list.style.display === "block") ? "none" : "block";
-  }
-
-  // Fermer les dropdowns si on clique ailleurs
-  window.addEventListener('click', function(e) {
-    const marqueBtn = document.querySelector('#dropdown-marque button');
-    const marqueMenu = document.getElementById("marque-list");
-
-    const tailleBtn = document.querySelector('#dropdown-taille button');
-    const tailleMenu = document.getElementById("taille-list");
-
-    const couleurBtn = document.querySelector('#dropdown-couleur button');
-    const couleurMenu = document.getElementById("couleur-list");
-
-    if (!marqueBtn.contains(e.target) && !marqueMenu.contains(e.target)) {
-      marqueMenu.style.display = "none";
-    }
-    if (!tailleBtn.contains(e.target) && !tailleMenu.contains(e.target)) {
-      tailleMenu.style.display = "none";
-    }
-    if (!couleurBtn.contains(e.target) && !couleurMenu.contains(e.target)) {
-      couleurMenu.style.display = "none";
-    }
-  });
-</script>
-
-  
-</div>
-
-
-           
-           <button class="btn-commander"><a href="CMDCH6.html">+ Ajouter au Panier</a></button>
-    </figure>
 </body>
-<footer>
-  <div class="footer-content">
-    <div class="footer-section about">
-      <h3>LES KEHOU <span>WAYS</span></h3>
-      <p>Votre boutique de mode pour toute la famille.</p>
-      <p>Email : contact@kehouways.com</p>
-      <p>Téléphone : +225 07 89 84 84 83 / 01 02 00 80 84</p>
-    </div>
-
-    <div class="footer-section links">
-      <h4>Liens rapides</h4>
-      <ul>
-        <li><a href="page1.html">Accueil</a></li>
-        <li><a href="BOUTIQUE.html">Boutique</a></li>
-        <li><a href="#">Panier</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-section social">
-      <h4>Suivez-nous</h4>
-      <p>
-        <a href="#">Facebook</a> |
-        <a href="#">Instagram</a> |
-        <a href="#">WhatsApp</a>
-      </p>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <p>&copy; 2025 LES KEHOU WAYS BY CHRIS YVANN/ YOANN ZAHUI - Tous droits réservés.</p>Add commentMore actions
-  </div>
-</footer>
 </html>

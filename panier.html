@@ -85,7 +85,7 @@
       const total = panier.reduce((sum, item) => sum + item.prix * item.quantite, 0);
       message += `\nTotal: ${total.toLocaleString()} FCFA`;
 
-      const numero = "2250102008084"; // ← ton numéro WhatsApp sans "+"
+      const numero = "2250789848483"; // ← ton numéro WhatsApp sans "+"
       const url = `https://wa.me/${numero}?text=${encodeURIComponent(message)}`;
 
       window.open(url, '_blank');
