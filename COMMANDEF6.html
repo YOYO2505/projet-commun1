@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commande</title>
+  <link rel="stylesheet" href="COMMANDE.css">
+
+</head>
+<body>
+  <header>
+    <div class="logo">KEHOU <span>WAYS</span></div>
+    <nav>
+        <ul>
+            <li><a href="Homme.html">HOMME</a></li>
+            <li><a href="Articlefemme.html">FEMME</a></li>
+            <li><a href="ENFANT.html">ENFANTS</a></li>
+            <li><a href="CHAUSSURE.html">CHAUSSURES</a></li>
+        </ul>
+    </nav>
+</header>
+
+  <img class="photo" src="Images/image6.webp" width="250" />
+  <p>Prix :  3 000 FCFA</p>
+
+  <label>Taille :
+    <select id="taille">
+      <option value="">-- Choisir --</option>
+      <option value="XS">XS</option>
+      <option value="S">S</option>
+      <option value="M">M</option>
+      <option value="L">L</option>
+      <option value="XL">XL</option>
+    </select>
+  </label>
+  <br>
+
+  <label>Couleur :
+    <select id="couleur">
+      <option value="">-- Choisir --</option>
+      <option value="Noir">⚫ Noir</option>
+      <option value="Blanc">⚪ Blanc</option>
+      <option value="Rouge">🔴 Rouge</option>
+      <option value="Bleu">🔵 Bleu</option>
+    </select>
+  </label>
+  <br>
+
+  <button onclick="ajouterAuPanier()">Ajouter au Panier</button>
+
+  <script>
+    function ajouterAuPanier() {
+      const taille = document.getElementById("taille").value;
+      const couleur = document.getElementById("couleur").value;
+
+      if (!taille || !couleur) {
+        alert("Veuillez choisir la taille et la couleur.");
+        return;
+      }
+
+      const article = {
+        prix: 3000,
+        taille: taille,
+        couleur: couleur,
+        quantite: 1
+      };
+
+      let panier = JSON.parse(localStorage.getItem("panier")) || [];
+
+      const existant = panier.find(p => p.nom === article.nom && p.taille === article.taille && p.couleur === article.couleur);
+
+      if (existant) {
+        existant.quantite++;
+      } else {
+        panier.push(article);
+      }
+
+      localStorage.setItem("panier", JSON.stringify(panier));
+      window.location.href = "panier.html";
+    }
+  </script>
+
+</body>
+</html>
